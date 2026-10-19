@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, Star, ArrowRight, Tag } from 'lucide-react';
 import products from '../data/products';
+import siteConfig from '../data/siteConfig';
 import { formatPrice } from '../hooks/useUtils';
 
 export default function SearchOverlay({ onClose, onProductClick }) {
@@ -30,16 +31,27 @@ export default function SearchOverlay({ onClose, onProductClick }) {
     };
   }, [onClose]);
 
-  // Filter products based on search term
+  // Filter products based on search terms (matches across name, category, descriptions, specs, colors, tags)
   const trimmed = query.trim().toLowerCase();
+  const searchTerms = trimmed.split(/\s+/).filter(Boolean);
   const results = trimmed
-    ? products.filter(
-        (p) =>
-          p.name.toLowerCase().includes(trimmed) ||
-          p.category.toLowerCase().includes(trimmed) ||
-          p.shortDescription?.toLowerCase().includes(trimmed) ||
-          p.specs?.material?.toLowerCase().includes(trimmed)
-      )
+    ? products.filter((p) => {
+        const searchableFields = [
+          p.name,
+          p.category,
+          p.shortDescription,
+          p.longDescription,
+          p.specs?.material,
+          p.specs?.upholstery,
+          ...(p.colors ? p.colors.map((c) => c.name) : []),
+          ...(p.tags || []),
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+
+        return searchTerms.every((term) => searchableFields.includes(term));
+      })
     : [];
 
   return (
@@ -107,7 +119,7 @@ export default function SearchOverlay({ onClose, onProductClick }) {
                 We craft bespoke custom furniture! Ask our Coimbatore showroom specialists if we can build or customize this for you.
               </p>
               <a
-                href={`https://wa.me/919876543210?text=Hi%20Lavish%20Furniture,%20I%20am%20looking%20for%20${encodeURIComponent(query)}`}
+                href={siteConfig.whatsappEnquiryUrl(`Hi Lavish Furniture, I am looking for ${query}`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors"

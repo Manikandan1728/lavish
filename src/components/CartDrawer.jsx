@@ -39,7 +39,12 @@ export default function CartDrawer({
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="fixed inset-0 z-[60] flex justify-end">
+    <div
+      className="fixed inset-0 z-[60] flex justify-end"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Shopping cart"
+    >
       {/* Backdrop */}
       <div
         onClick={onClose}

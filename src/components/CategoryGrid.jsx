@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { categories } from '../data/products';
+import products, { categories } from '../data/products';
 import { useInView } from '../hooks/useUtils';
 
 /**
@@ -27,17 +27,18 @@ export default function CategoryGrid({ onCategoryClick }) {
           {categories.map((cat, i) => {
             // Make first two tiles span more for asymmetry
             const isLarge = i < 2;
+            const count = products.filter(p => p.category === cat.name).length;
             return (
               <button
                 key={cat.name}
                 onClick={() => onCategoryClick(cat.name)}
-                className={`group relative overflow-hidden rounded-card cursor-pointer ${
+                className={`group relative overflow-hidden rounded-card cursor-pointer text-left ${
                   isLarge ? 'md:col-span-2 aspect-[16/10]' : 'aspect-square'
                 } transition-all duration-600 ${
                   isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                 }`}
                 style={{ transitionDelay: `${i * 80}ms` }}
-                aria-label={`Browse ${cat.name}`}
+                aria-label={`Browse ${cat.name} collection (${count} pieces)`}
               >
                 {/* Image */}
                 <img
@@ -51,13 +52,16 @@ export default function CategoryGrid({ onCategoryClick }) {
                   }}
                 />
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/20 to-transparent group-hover:from-charcoal/80 transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/30 to-transparent group-hover:from-charcoal/90 transition-all duration-500" />
                 {/* Label */}
-                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-                  <h3 className="font-serif text-white text-xl md:text-2xl mb-1">
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6">
+                  <span className="text-[10px] sm:text-xs font-semibold tracking-wider uppercase text-gold/90 block mb-0.5">
+                    {count} Pieces
+                  </span>
+                  <h3 className="font-serif text-white text-lg sm:text-xl md:text-2xl mb-1">
                     {cat.name}
                   </h3>
-                  <span className="inline-flex items-center gap-1 text-gold text-sm font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400">
+                  <span className="inline-flex items-center gap-1 text-gold text-xs sm:text-sm font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400">
                     Explore <ArrowRight size={14} />
                   </span>
                 </div>

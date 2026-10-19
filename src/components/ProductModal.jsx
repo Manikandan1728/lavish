@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X, Star, Heart, ShoppingBag, MessageCircle,
   Minus, Plus, ChevronDown, Truck, Shield, RotateCcw, Package
@@ -38,10 +38,23 @@ function Accordion({ title, children, defaultOpen = false }) {
  */
 export default function ProductModal({ product, onClose, addToCart, wishlist, toggleWishlist }) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name || null);
+  const [selectedColor, setSelectedColor] = useState(product.colors?.[0]?.name || null);
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || null);
   const [quantity, setQuantity] = useState(1);
   const isWished = wishlist.includes(product.id);
+
+  // Close on Escape key and lock body scroll
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
 
   const emi = calculateEMI(product.price);
   const savings = product.mrp - product.price;

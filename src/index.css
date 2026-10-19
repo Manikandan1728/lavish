@@ -144,67 +144,69 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Gold gradient button */
-.btn-gold {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  background: var(--gold);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
+@layer components {
+  /* Gold gradient button */
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: var(--gold);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
 
-.btn-gold:hover {
-  background: #A07A3A;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(184, 146, 74, 0.3);
-}
+  .btn-gold:hover {
+    background: #A07A3A;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(184, 146, 74, 0.3);
+  }
 
-/* Outlined button */
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  background: transparent;
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border: 1.5px solid var(--white);
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
+  /* Outlined button */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: transparent;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--white);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
 
-.btn-outline:hover {
-  background: var(--white);
-  color: var(--charcoal);
-}
+  .btn-outline:hover {
+    background: var(--white);
+    color: var(--charcoal);
+  }
 
-.btn-outline-dark {
-  color: var(--charcoal);
-  border-color: var(--charcoal);
-}
+  .btn-outline-dark {
+    color: var(--charcoal);
+    border-color: var(--charcoal);
+  }
 
-.btn-outline-dark:hover {
-  background: var(--charcoal);
-  color: var(--white);
+  .btn-outline-dark:hover {
+    background: var(--charcoal);
+    color: var(--white);
+  }
 }
 
 /* Shimmer loading effect */

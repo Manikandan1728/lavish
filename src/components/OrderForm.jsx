@@ -14,6 +14,7 @@ export default function OrderForm({ cart = [], showToast }) {
     inquiryType: 'order', // 'order' | 'custom' | 'visit'
   });
 
+  const [submitting, setSubmitting] = useState(false);
   const [containerRef, inView] = useInView();
 
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -23,13 +24,24 @@ export default function OrderForm({ cart = [], showToast }) {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const todayStr = new Date().toISOString().split('T')[0];
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.name.trim() || !formData.phone.trim()) {
-      if (showToast) showToast('Please enter your name and phone number', '⚠️');
+    if (!formData.name.trim()) {
+      if (showToast) showToast('Please enter your full name', '⚠️');
       return;
     }
+
+    const cleanPhone = formData.phone.replace(/[\s\-\+\(\)]/g, '');
+    if (!cleanPhone || cleanPhone.length < 10) {
+      if (showToast) showToast('Please enter a valid 10-digit WhatsApp/phone number', '⚠️');
+      return;
+    }
+
+    setSubmitting(true);
+    setTimeout(() => setSubmitting(false), 2000);
 
     if (formData.inquiryType === 'order' && cart.length > 0) {
       // Cart WhatsApp Order
@@ -188,6 +200,7 @@ export default function OrderForm({ cart = [], showToast }) {
                 <input
                   type="date"
                   name="date"
+                  min={todayStr}
                   value={formData.date}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-xl border border-charcoal/20 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all text-base sm:text-sm text-charcoal bg-white"
@@ -216,7 +229,8 @@ export default function OrderForm({ cart = [], showToast }) {
 
               <button
                 type="submit"
-                className="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-base flex items-center justify-center gap-3 shadow-lg shadow-emerald-600/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+                disabled={submitting}
+                className="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-75 disabled:cursor-not-allowed text-white font-semibold text-base flex items-center justify-center gap-3 shadow-lg shadow-emerald-600/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 <MessageCircle size={22} className="fill-white/20" />
                 <span>

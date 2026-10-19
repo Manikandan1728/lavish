@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, CheckCircle, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, CheckCircle, Quote } from 'lucide-react';
 import siteConfig from '../data/siteConfig';
 import { useInView } from '../hooks/useUtils';
 
@@ -74,7 +74,6 @@ const reviewsData = [
 
 export default function Reviews() {
   const [filter, setFilter] = useState('All');
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [containerRef, inView] = useInView();
 
   const categories = ['All', 'Living Room', 'Dining', 'Bedroom', 'Custom Work'];
@@ -82,14 +81,6 @@ export default function Reviews() {
   const filtered = filter === 'All'
     ? reviewsData
     : reviewsData.filter(r => r.category === filter);
-
-  const prevReview = () => {
-    setCurrentIndex(prev => (prev === 0 ? filtered.length - 1 : prev - 1));
-  };
-
-  const nextReview = () => {
-    setCurrentIndex(prev => (prev === filtered.length - 1 ? 0 : prev + 1));
-  };
 
   return (
     <section ref={containerRef} className="py-20 bg-cream/40 border-y border-charcoal/5 relative overflow-hidden">
@@ -142,10 +133,7 @@ export default function Reviews() {
           {categories.map(cat => (
             <button
               key={cat}
-              onClick={() => {
-                setFilter(cat);
-                setCurrentIndex(0);
-              }}
+              onClick={() => setFilter(cat)}
               className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
                 filter === cat
                   ? 'bg-charcoal text-white shadow-md'
